@@ -2,7 +2,7 @@
 	<el-row class="container">
 		<el-col :span="24" class="header">
 			<el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
-				{{collapsed?'':sysName}}
+				警务实战指挥平台
 			</el-col>
 			<el-col :span="10">
 				<div class="tools" @click.prevent="collapse">
@@ -38,7 +38,7 @@
 					<li v-for="(item,index) in $router.options.routes" v-if="!item.hidden" class="el-submenu item">
 						<template v-if="!item.leaf">
 							<div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)"><i :class="item.iconCls"></i></div>
-							<ul class="el-menu submenu" :class="'submenu-hook-'+index" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)"> 
+							<ul class="el-menu submenu" :class="'submenu-hook-'+index" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)">
 								<li v-for="child in item.children" v-if="!child.hidden" :key="child.path" class="el-menu-item" style="padding-left: 40px;" :class="$route.path==child.path?'is-active':''" @click="$router.push(child.path)">{{child.name}}</li>
 							</ul>
 						</template>
@@ -53,7 +53,6 @@
 			<section class="content-container">
 				<div class="grid-content bg-purple-light">
 					<el-col :span="24" class="breadcrumb-container">
-						<strong class="title">{{$route.name}}</strong>
 						<el-breadcrumb separator="/" class="breadcrumb-inner">
 							<el-breadcrumb-item v-for="item in $route.matched" :key="item.path">
 								{{ item.name }}
@@ -240,15 +239,10 @@
 				width: 230px;
 			}
 			.content-container {
-				// background: #f1f2f7;
 				flex:1;
-				// position: absolute;
-				// right: 0px;
-				// top: 0px;
-				// bottom: 0px;
-				// left: 230px;
 				overflow-y: scroll;
 				padding: 20px;
+				padding-bottom: 0;
 				.breadcrumb-container {
 					//margin-bottom: 15px;
 					.title {
@@ -263,6 +257,8 @@
 				.content-wrapper {
 					background-color: #fff;
 					box-sizing: border-box;
+					height: 100%;
+					padding:10px;
 				}
 			}
 		}

@@ -1,303 +1,185 @@
 <template>
-	<section>
-		<!--工具条-->
-		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-			<el-form :inline="true" :model="filters">
-				<el-form-item>
-					<el-input v-model="filters.name" placeholder="姓名"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-button type="primary" v-on:click="getUsers">查询</el-button>
-				</el-form-item>
-				<el-form-item>
-					<el-button type="primary" @click="handleAdd">新增</el-button>
-				</el-form-item>
-			</el-form>
-		</el-col>
 
-		<!--列表-->
-		<el-table :data="users" highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
-			<el-table-column type="selection" width="55">
-			</el-table-column>
-			<el-table-column type="index" width="60">
-			</el-table-column>
-			<el-table-column prop="name" label="姓名" width="120" sortable>
-			</el-table-column>
-			<el-table-column prop="sex" label="性别" width="100" :formatter="formatSex" sortable>
-			</el-table-column>
-			<el-table-column prop="age" label="年龄" width="100" sortable>
-			</el-table-column>
-			<el-table-column prop="birth" label="生日" width="120" sortable>
-			</el-table-column>
-			<el-table-column prop="addr" label="地址" min-width="180" sortable>
-			</el-table-column>
-			<el-table-column label="操作" width="150">
-				<template scope="scope">
-					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-					<el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
-				</template>
-			</el-table-column>
-		</el-table>
-
-		<!--工具条-->
-		<el-col :span="24" class="toolbar">
-			<el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
-			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
-			</el-pagination>
-		</el-col>
-
-		<!--编辑界面-->
-		<el-dialog title="编辑" v-model="editFormVisible" :close-on-click-modal="false">
-			<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-				<el-form-item label="姓名" prop="name">
-					<el-input v-model="editForm.name" auto-complete="off"></el-input>
-				</el-form-item>
-				<el-form-item label="性别">
-					<el-radio-group v-model="editForm.sex">
-						<el-radio class="radio" :label="1">男</el-radio>
-						<el-radio class="radio" :label="0">女</el-radio>
-					</el-radio-group>
-				</el-form-item>
-				<el-form-item label="年龄">
-					<el-input-number v-model="editForm.age" :min="0" :max="200"></el-input-number>
-				</el-form-item>
-				<el-form-item label="生日">
-					<el-date-picker type="date" placeholder="选择日期" v-model="editForm.birth"></el-date-picker>
-				</el-form-item>
-				<el-form-item label="地址">
-					<el-input type="textarea" v-model="editForm.addr"></el-input>
-				</el-form-item>
-			</el-form>
-			<div slot="footer" class="dialog-footer">
-				<el-button @click.native="editFormVisible = false">取消</el-button>
-				<el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
-			</div>
-		</el-dialog>
-
-		<!--新增界面-->
-		<el-dialog title="新增" v-model="addFormVisible" :close-on-click-modal="false">
-			<el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
-				<el-form-item label="姓名" prop="name">
-					<el-input v-model="addForm.name" auto-complete="off"></el-input>
-				</el-form-item>
-				<el-form-item label="性别">
-					<el-radio-group v-model="addForm.sex">
-						<el-radio class="radio" :label="1">男</el-radio>
-						<el-radio class="radio" :label="0">女</el-radio>
-					</el-radio-group>
-				</el-form-item>
-				<el-form-item label="年龄">
-					<el-input-number v-model="addForm.age" :min="0" :max="200"></el-input-number>
-				</el-form-item>
-				<el-form-item label="生日">
-					<el-date-picker type="date" placeholder="选择日期" v-model="addForm.birth"></el-date-picker>
-				</el-form-item>
-				<el-form-item label="地址">
-					<el-input type="textarea" v-model="addForm.addr"></el-input>
-				</el-form-item>
-			</el-form>
-			<div slot="footer" class="dialog-footer">
-				<el-button @click.native="addFormVisible = false">取消</el-button>
-				<el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
-			</div>
-		</el-dialog>
-	</section>
+    <section>
+        <!--工具条-->
+        <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+            <el-form :inline="true">
+                <el-form-item>
+                    <el-button type="primary">接警处</el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary">公安</el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary">警力</el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary">视频</el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary">重点人员车辆</el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary">警情分布</el-button>
+                </el-form-item>
+            </el-form>
+        </el-col>
+        <el-col :span="24" style="padding-bottom: 0px;height: 100%">
+            <div id="XSDFXPage" class="XSDFXPage"></div>
+        </el-col>
+    </section>
 </template>
 
 <script>
-	import util from '../../common/js/util'
-	//import NProgress from 'nprogress'
-	import { getUserListPage, removeUser, batchRemoveUser, editUser, addUser } from '../../api/api';
+    export default {
+        name: '',
+        data () {
+            return {}
+        },
+        mounted() {
+            // 百度地图API功能
+            var sContent = `<div class="content-info">
+                                 <div class="info-title">
+                                   在职人数：200人
+                                 </div>
+                                 <div class="info">
+                                    <table class="table table-bordered el-table__body">
+                                        <thead>
+                                          <tr>
+                                            <th>编号</th>
+                                            <th>姓名</th>
+                                            <th>职位</th>
+                                            <th>联系方式</th>
+                                            <th>是否外勤</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            <td>1</td>
+                                            <td>王小虎</td>
+                                            <td>所长</td>
+                                            <td>158555334344</td>
+                                            <td>否</td>
+                                          </tr>
+                                          <tr>
+                                            <td>2</td>
+                                            <td>王小虎</td>
+                                            <td>所长</td>
+                                            <td>158555334344</td>
+                                            <td>否</td>
+                                          </tr>
+                                          <tr>
+                                            <td>3</td>
+                                            <td>王小虎</td>
+                                            <td>所长</td>
+                                            <td>158555334344</td>
+                                            <td>否</td>
+                                          </tr>
+                                          <tr>
+                                            <td>4</td>
+                                            <td>王小虎</td>
+                                            <td>所长</td>
+                                            <td>158555334344</td>
+                                            <td>否</td>
+                                          </tr>
+                                          <tr>
+                                            <td>5</td>
+                                            <td>王小虎</td>
+                                            <td>所长</td>
+                                            <td>158555334344</td>
+                                            <td>否</td>
+                                          </tr>
+                                        </tbody>
 
-	export default {
-		data() {
-			return {
-				filters: {
-					name: ''
-				},
-				users: [],
-				total: 0,
-				page: 1,
-				listLoading: false,
-				sels: [],//列表选中列
+                                    </table>
+                                 </div>
+                            </div>`;
+            var map = new BMap.Map("XSDFXPage");    // 创建Map实例
+            map.centerAndZoom(new BMap.Point(116.404, 39.915), 15);  // 初始化地图,设置中心点坐标和地图级别
+            map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
+            map.enableDragging(); //开启拖拽
+            map.setCurrentCity("北京");          // 设置地图显示的城市 此项是必须设置的
+            map.centerAndZoom(point, 15);
+            var opts = {
+                width : 800,     // 信息窗口宽度
+                height: 500,     // 信息窗口高度
+                title : "朝阳区派出所人员详细信息" , // 信息窗口标题
+                enableMessage:true,//设置允许信息窗发送短息
+                message:"亲耐滴，晚上一起吃个饭吧？戳下面的链接看下地址喔~"
+            }
+            // 编写自定义函数,创建标注
+            function addMarker(point) {
+                var marker = new BMap.Marker(point);
+                map.addOverlay(marker);
+                var infoWindow = new BMap.InfoWindow(sContent,opts);
+                marker.addEventListener("click", function() {
+                    this.openInfoWindow(infoWindow);
+                })
+            }
 
-				editFormVisible: false,//编辑界面是否显示
-				editLoading: false,
-				editFormRules: {
-					name: [
-						{ required: true, message: '请输入姓名', trigger: 'blur' }
-					]
-				},
-				//编辑界面数据
-				editForm: {
-					id: 0,
-					name: '',
-					sex: -1,
-					age: 0,
-					birth: '',
-					addr: ''
-				},
+            // 随机向地图添加25个标注
+            var bounds = map.getBounds();
+            var sw = bounds.getSouthWest();
+            var ne = bounds.getNorthEast();
+            var lngSpan = Math.abs(sw.lng - ne.lng);
+            var latSpan = Math.abs(ne.lat - sw.lat);
+            for (var i = 0; i < 25; i++) {
+                var point = new BMap.Point(sw.lng + lngSpan * (Math.random() * 0.7), ne.lat - latSpan * (Math.random() * 0.7));
+                addMarker(point);
+            }
+            //点击标注弹出
+            /*var local = new BMap.LocalSearch(map, {
+                renderOptions: {map: map, panel: "r-result"}
+            });
+            local.search("餐饮");*/
+        }
 
-				addFormVisible: false,//新增界面是否显示
-				addLoading: false,
-				addFormRules: {
-					name: [
-						{ required: true, message: '请输入姓名', trigger: 'blur' }
-					]
-				},
-				//新增界面数据
-				addForm: {
-					name: '',
-					sex: -1,
-					age: 0,
-					birth: '',
-					addr: ''
-				}
-
-			}
-		},
-		methods: {
-			//性别显示转换
-			formatSex: function (row, column) {
-				return row.sex == 1 ? '男' : row.sex == 0 ? '女' : '未知';
-			},
-			handleCurrentChange(val) {
-				this.page = val;
-				this.getUsers();
-			},
-			//获取用户列表
-			getUsers() {
-				let para = {
-					page: this.page,
-					name: this.filters.name
-				};
-				this.listLoading = true;
-				//NProgress.start();
-				getUserListPage(para).then((res) => {
-					this.total = res.data.total;
-					this.users = res.data.users;
-					this.listLoading = false;
-					//NProgress.done();
-				});
-			},
-			//删除
-			handleDel: function (index, row) {
-				this.$confirm('确认删除该记录吗?', '提示', {
-					type: 'warning'
-				}).then(() => {
-					this.listLoading = true;
-					//NProgress.start();
-					let para = { id: row.id };
-					removeUser(para).then((res) => {
-						this.listLoading = false;
-						//NProgress.done();
-						this.$message({
-							message: '删除成功',
-							type: 'success'
-						});
-						this.getUsers();
-					});
-				}).catch(() => {
-
-				});
-			},
-			//显示编辑界面
-			handleEdit: function (index, row) {
-				this.editFormVisible = true;
-				this.editForm = Object.assign({}, row);
-			},
-			//显示新增界面
-			handleAdd: function () {
-				this.addFormVisible = true;
-				this.addForm = {
-					name: '',
-					sex: -1,
-					age: 0,
-					birth: '',
-					addr: ''
-				};
-			},
-			//编辑
-			editSubmit: function () {
-				this.$refs.editForm.validate((valid) => {
-					if (valid) {
-						this.$confirm('确认提交吗？', '提示', {}).then(() => {
-							this.editLoading = true;
-							//NProgress.start();
-							let para = Object.assign({}, this.editForm);
-							para.birth = (!para.birth || para.birth == '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
-							editUser(para).then((res) => {
-								this.editLoading = false;
-								//NProgress.done();
-								this.$message({
-									message: '提交成功',
-									type: 'success'
-								});
-								this.$refs['editForm'].resetFields();
-								this.editFormVisible = false;
-								this.getUsers();
-							});
-						});
-					}
-				});
-			},
-			//新增
-			addSubmit: function () {
-				this.$refs.addForm.validate((valid) => {
-					if (valid) {
-						this.$confirm('确认提交吗？', '提示', {}).then(() => {
-							this.addLoading = true;
-							//NProgress.start();
-							let para = Object.assign({}, this.addForm);
-							para.birth = (!para.birth || para.birth == '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
-							addUser(para).then((res) => {
-								this.addLoading = false;
-								//NProgress.done();
-								this.$message({
-									message: '提交成功',
-									type: 'success'
-								});
-								this.$refs['addForm'].resetFields();
-								this.addFormVisible = false;
-								this.getUsers();
-							});
-						});
-					}
-				});
-			},
-			selsChange: function (sels) {
-				this.sels = sels;
-			},
-			//批量删除
-			batchRemove: function () {
-				var ids = this.sels.map(item => item.id).toString();
-				this.$confirm('确认删除选中记录吗？', '提示', {
-					type: 'warning'
-				}).then(() => {
-					this.listLoading = true;
-					//NProgress.start();
-					let para = { ids: ids };
-					batchRemoveUser(para).then((res) => {
-						this.listLoading = false;
-						//NProgress.done();
-						this.$message({
-							message: '删除成功',
-							type: 'success'
-						});
-						this.getUsers();
-					});
-				}).catch(() => {
-
-				});
-			}
-		},
-		mounted() {
-			this.getUsers();
-		}
-	}
+    }
 
 </script>
 
-<style scoped>
+<style lang="less">
+    section {
+        height: 100%;
+    }
+    .XSDFXPage{
+        height: 80%;
+    }
+    .BMap_cpyCtrl {
+        display: none;
+    }
 
+    .anchorBL {
+        display: none;
+    }
+    .table-bordered {
+        border: 1px solid #ddd;
+        border-spacing: 0;
+        border-collapse: collapse;
+        margin:0 auto;
+        width: 100%;
+    }
+    .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+        padding: 8px;
+        line-height: 1.42857143;
+        vertical-align: top;
+    }
+    .content-info{
+        overflow: auto;
+    }
+    .BMap_bubble_title{
+        text-align: center!important;
+        line-height: 35px !important;
+    }
+</style>
+<style lang="less" scope>
+    .container .main .content-container{
+        >div{
+            height:100%;
+        }
+    }
 </style>
