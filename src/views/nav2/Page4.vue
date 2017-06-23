@@ -75,8 +75,8 @@
     import NProgress from 'nprogress'
     import { getUserListPage, removeUser, batchRemoveUser, editUser, addUser,LineData } from '../../api/api';
     import echarts from 'echarts'
-    require('echarts/theme/macarons')
-
+    require('echarts/theme/macarons');
+    import axios from 'axios';
     export default {
         data() {
             return {
@@ -133,10 +133,7 @@
                     this.listLoading = false;
                     NProgress.done();
                 });
-            },
-            //获取折线图
-            drawLineChart() {
-                this.chartLine = echarts.init(document.getElementById('chartColumn','macarons'));
+                this.chartLine = echarts.init(document.getElementById('chartColumn'));
                 this.chartLine.setOption({
                     title: {
                         text: '2017年6-3-2017-6-10报警统计',
@@ -158,6 +155,58 @@
                     series: [
                         {
                             name: '报警数',
+                            smooth:true,
+                            type: 'line',
+                            stack: '总量',
+                            data: [200, 30, 80, 134, 40, 230, 20]
+                        }
+                    ]
+                });
+                this.chartColumn = echarts.init(document.getElementById('chartBar'));
+                this.chartColumn.setOption({
+                    title: {
+                        text: '2017年6-3-2017-6-10报警统计',
+                        x: 'center',                 // 水平安放位置，默认为左对齐，可选为：
+                        y: 'top',
+                    },
+                    tooltip: {},
+                    xAxis: {
+                        data: ["刑侦类", "治安类", "救助类", "纠纷类", "突发类", "信息类"]
+                    },
+                    yAxis: {},
+                    color:["#20a0ff"],
+                    series: [{
+                        name: '案件数量',
+                        type: 'bar',
+                        data: [10, 30, 15, 5, 20, 45]
+                    }]
+                });
+            },
+            //获取折线图
+            drawLineChart() {
+                this.chartLine = echarts.init(document.getElementById('chartColumn'));
+                this.chartLine.setOption({
+                    title: {
+                        text: '2017年6-3-2017-6-10报警统计',
+                        x: 'center',                 // 水平安放位置，默认为左对齐，可选为：
+                        y: 'top',
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    color:["#20a0ff"],
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ['6-3', '6-4', '6-5', '6-6', '6-7', '6-8', '6-9']
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [
+                        {
+                            name: '报警数',
+                            smooth:true,
                             type: 'line',
                             stack: '总量',
                             data: [120, 132, 101, 134, 90, 230, 210]

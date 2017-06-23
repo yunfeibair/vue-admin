@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px" class="demo-ruleForm login-container">
-      <h3 class="title">系统登录</h3>
+      <h3 class="title">云英警务实战指挥平台</h3>
       <el-form-item prop="account">
         <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号"></el-input>
       </el-form-item>
@@ -11,7 +11,6 @@
       <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
       <el-form-item style="width:100%;">
         <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="logining">登录</el-button>
-        <!--<el-button @click.native.prevent="handleReset2">重置</el-button>-->
       </el-form-item>
     </el-form>
   </div>
@@ -59,10 +58,11 @@
               //NProgress.done();
               let { msg, code, user } = data;
               if (code !== 200) {
-                this.$message({
-                  message: "请插入秘钥后再登录",
-                  type: 'error'
-                });
+                  this.$notify({
+                      title: '失败',
+                      message: '请插入秘钥后，登录',
+                      type: 'error'
+                  });
               } else {
                 sessionStorage.setItem('user', JSON.stringify(user));
                 this.$router.push({ path: '/index' });
